@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'signup.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="signup-container">
+    <h2>Inscrivez-vous</h2>
+    <form method="post" class="signup-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="signup-actions">
+        <a href="/" class="button-radius">Retourner</a>
+        <button class="button-radius" type="submit">S'inscrire</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

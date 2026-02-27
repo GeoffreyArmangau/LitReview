@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="home-flex-row">
+    <div class="home-flex-col">
+      <h2>Inscrivez-vous maintenant</h2>
+      <a href="{% url 'signup' %}" class="button-radius">S'inscrire</a>
+    </div>
+    <div class="home-flex-col">
+      <h2>Connectez-vous</h2>
+      {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+          {% csrf_token %}
+          <button type="submit" class="button">Déconnexion</button>
+        </form>
+      {% else %}
+        <form method="post" action="{% url 'login' %}" class="login-form">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+          <input type="password" name="password" placeholder="Mot de passe" required>
+          <button type="submit" class="button-radius">Se connecter</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

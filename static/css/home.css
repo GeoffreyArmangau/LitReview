@@ -1,0 +1,60 @@
+/* Conteneur principal en deux colonnes */
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    margin: 60px auto;
+    max-width: 700px;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.3em;
+    color: #2a2a2a;
+}
+
+/* Conteneur pour les blocs "Inscrivez-vous" et "Connectez-vous" */
+.home-flex-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 300px;
+    margin: 40px auto 0 auto;
+    max-width: 700px;
+}
+
+.home-flex-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    min-width: 300px;
+}
+
+.logout-form {
+    display: inline;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* aligne tout à droite */
+    gap: 15px;
+    width: 100%;
+}
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 220px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1.2px solid #2a2a2a;
+    font-size: 1em;
+    background: #f9f9f9;
+    text-align: center; /* Centrer le texte dans les champs */
+}
+.login-form button {
+    width: 140px;
+    align-self: flex-end; /* Place le bouton à droite */
+}

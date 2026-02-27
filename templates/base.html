@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}LitRevu{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <main>
+        <section class="header">
+            <h1>LitReview</h1>
+            {% if user.is_authenticated %}
+            <nav>
+                <a href="{% url 'flux' %}">Flux</a>
+                <a href="{% url 'create_review' %}">Posts</a>
+                <a href="">Abonnements</a>
+                <a href="{% url 'logout' %}">Se déconnecter</a>
+            </nav>
+            {% endif %}
+        </section>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

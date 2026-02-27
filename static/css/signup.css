@@ -1,0 +1,37 @@
+/* Centrage vertical et colonne pour le formulaire d'inscription */
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 70vh;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup-form input{
+    width: 320px;
+    padding: 8px 10px;
+    border: 1.2px solid #2a2a2a;
+    font-size: 1em;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.signup-form p {
+    margin: 10px;
+}
+
+.signup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    width: 100%;
+    margin-top: 10px;
+}

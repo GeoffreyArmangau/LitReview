@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="bandeau">
+    <h2>Connexion</h2>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="button" type="submit">Se connecter</button>
+  </form>
+{% endblock %}
