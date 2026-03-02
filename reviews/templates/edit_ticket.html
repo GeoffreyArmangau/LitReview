@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'create_ticket.css' %}">
+{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Modifier le ticket</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.title.label_tag }}
+        {{ form.title }}
+        {{ form.description.label_tag }}
+        {{ form.description }}
+        <label class="custom-file-label" for="id_image">Image</label>
+        {{ form.image }}
+        <button type="submit" class="button-radius">Enregistrer les modifications</button>
+    </form>
+</div>
+{% endblock %}

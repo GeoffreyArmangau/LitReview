@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'create_ticket.css' %}">
+{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Modifier la critique</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.headline.label_tag }}
+        {{ form.headline }}
+        {{ form.rating.label_tag }}
+        {{ form.rating }}
+        {{ form.body.label_tag }}
+        {{ form.body }}
+        <button type="submit" class="button-radius">Enregistrer les modifications</button>
+    </form>
+</div>
+{% endblock %}

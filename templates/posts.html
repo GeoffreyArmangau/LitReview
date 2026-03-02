@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'create_ticket.css' %}">
+{% endblock %}
+{% block content %}
+<div class="posts-container">
+    <h2>Vos posts</h2>
+    <ul>
+        {% for post in posts %}
+            {% if post.kind == 'ticket' %}
+                <li>
+                    <strong>{{ post.title }}</strong> - {{ post.description|default:"(pas de description)" }}
+                    <a href="{% url 'edit_ticket' post.id %}" class="button-radius">Modifier</a>
+                    <form action="{% url 'delete_ticket' post.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button-radius" onclick="return confirm('Supprimer ce billet ?');">Supprimer</button>
+                    </form>
+                </li>
+            {% elif post.kind == 'review' %}
+                <li>
+                    <strong>{{ post.headline }}</strong> ({{ post.rating }}/5) - {{ post.body|default:"(pas de commentaire)" }}
+                    <a href="{% url 'edit_review' post.id %}" class="button-radius">Modifier</a>
+                    <form action="{% url 'delete_review' post.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button-radius" onclick="return confirm('Supprimer cette critique ?');">Supprimer</button>
+                    </form>
+                </li>
+            {% endif %}
+        {% empty %}
+        <li>Aucun post.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

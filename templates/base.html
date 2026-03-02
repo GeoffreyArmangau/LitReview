@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}LitRevu{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -14,7 +14,7 @@
             {% if user.is_authenticated %}
             <nav>
                 <a href="{% url 'flux' %}">Flux</a>
-                <a href="{% url 'create_review' %}">Posts</a>
+                <a href="{% url 'posts' %}">Posts</a>
                 <a href="">Abonnements</a>
                 <a href="{% url 'logout' %}">Se déconnecter</a>
             </nav>

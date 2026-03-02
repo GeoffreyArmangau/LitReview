@@ -1,4 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/flux.css' %}">
+{% endblock %}
 {% block content %}
   <h2>Flux des critiques et tickets</h2>
+    <div class="button-container">
+        <a href="{% url 'create_ticket' %}" class="button-radius"> Créer un ticket</a>
+        <a href="{% url 'create_review' %}" class="button-radius"> Créer une critique</a>
+    </div>
 {% endblock %}
