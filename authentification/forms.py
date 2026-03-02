@@ -4,9 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
 
 
-class SignUpForm(UserCreationForm):
+class CustomSignupForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ("username", "email", "first_name", "last_name")
+        fields = ("username", "email", "password1", "password2")
