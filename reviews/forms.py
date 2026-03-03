@@ -1,7 +1,27 @@
 from django import forms
 from .models import Ticket, Review
+from authentification.models import CustomUser
+
+class FollowUserForm(forms.Form):
+    """
+    Formulaire pour suivre un utilisateur.
+    Attributs :
+    - username : champ de texte pour saisir le nom d'utilisateur à suivre
+    """
+    username = forms.CharField(
+        label="Nom d'utilisateur à suivre",
+        max_length=150,
+        widget=forms.TextInput(attrs={'placeholder': "Nom d'utilisateur"})
+    )
 
 class TicketForm(forms.ModelForm):
+    """
+    Formulaire pour créer un ticket.
+    Attributs :
+    - title : champ de texte pour le titre du ticket
+    - description : champ de texte pour la description du ticket
+    - image : champ de téléchargement pour une image associée au ticket
+    """
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'image']
@@ -16,6 +36,13 @@ class TicketForm(forms.ModelForm):
         }
 
 class ReviewForm(forms.ModelForm):
+    """
+    Formulaire pour créer une critique.
+    Attributs :
+    - headline : champ de texte pour le titre de la critique
+    - rating : champ de sélection pour la note de la critique
+    - body : champ de texte pour le commentaire de la critique
+    """
     class Meta:
         model = Review
         fields = ['headline', 'rating', 'body']

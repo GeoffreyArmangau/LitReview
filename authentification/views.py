@@ -35,5 +35,5 @@ def signup_view(request):
 	return render(request, "signup.html", {"form": form})
 
 def home(request):
-    form = AuthenticationForm()
-    return render(request, "home.html", {"form": form})
+	form = AuthenticationForm()
+	return render(request, "home.html", {"form": form})

@@ -2,13 +2,71 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import Ticket, Review
-from .forms import TicketForm, ReviewForm
+from .forms import TicketForm, ReviewForm, FollowUserForm
+from authentification.models import UserFollows, CustomUser
+from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.views.decorators.http import require_POST
 
+@login_required
+def follow_users(request):
+    """
+    Affiche la page de gestion des abonnements et traite les actions de suivi/désabonnement.
+    Attributs :
+    - follow_form : formulaire pour suivre un nouvel utilisateur
+    - abonnements : liste des utilisateurs que l'utilisateur actuel suit
+    - abonnes : liste des utilisateurs qui suivent l'utilisateur actuel
+    """
+    user = request.user
+    # Formulaire pour suivre un utilisateur
+    if request.method == 'POST' and 'follow_user' in request.POST:
+        follow_form = FollowUserForm(request.POST)
+        if follow_form.is_valid():
+            username = follow_form.cleaned_data['username']
+            try:
+                to_follow = CustomUser.objects.get(username=username)
+                if to_follow == user:
+                    messages.error(request, "Vous ne pouvez pas vous suivre vous-même.")
+                elif UserFollows.objects.filter(user=user, followed_user=to_follow).exists():
+                    messages.info(request, f"Vous suivez déjà {username}.")
+                else:
+                    UserFollows.objects.create(user=user, followed_user=to_follow)
+                    messages.success(request, f"Vous suivez maintenant {username}.")
+            except CustomUser.DoesNotExist:
+                messages.error(request, "Utilisateur non trouvé.")
+    else:
+        follow_form = FollowUserForm()
+
+    # Désabonnement
+    if request.method == 'POST' and 'unfollow_user_id' in request.POST:
+        unfollow_id = request.POST.get('unfollow_user_id')
+        try:
+            to_unfollow = CustomUser.objects.get(id=unfollow_id)
+            UserFollows.objects.filter(user=user, followed_user=to_unfollow).delete()
+            messages.success(request, f"Vous êtes désabonné de {to_unfollow.username}.")
+        except CustomUser.DoesNotExist:
+            messages.error(request, "Utilisateur à désabonner introuvable.")
+
+    # Mes abonnements
+    abonnements = UserFollows.objects.filter(user=user).select_related('followed_user')
+    # Mes abonnés
+    abonnes = UserFollows.objects.filter(followed_user=user).select_related('user')
+
+    return render(request, 'follow_users.html', {
+        'follow_form': follow_form,
+        'abonnements': abonnements,
+        'abonnes': abonnes,
+    })
 
 @login_required
 def create_review(request):
+    
+    """
+    Crée une critique avec un ticket associé.
+    Attributs :
+    - ticket_form : formulaire pour créer un ticket
+    - review_form : formulaire pour créer une critique
+    """
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST, request.FILES)
         review_form = ReviewForm(request.POST)
@@ -29,6 +87,11 @@ def create_review(request):
 
 @login_required
 def create_ticket(request):
+    """
+    Crée un ticket.
+    Attributs :
+    - form : formulaire pour créer un ticket
+    """
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES)
         if form.is_valid():
@@ -41,49 +104,13 @@ def create_ticket(request):
     return render(request, 'create_ticket.html', {'form': form})
 
 @login_required
-def flux(request):
-    user = request.user
-    month_names = [
-        "janvier", "février", "mars", "avril", "mai", "juin",
-        "juillet", "août", "septembre", "octobre", "novembre", "décembre"
-    ]
-    my_reviews = Review.objects.filter(user=user).order_by('-time_created')
-    my_tickets = Ticket.objects.filter(user=user, reviews__isnull=True).order_by('-time_created')
-
-    def format_local_date(date_value):
-        local_date = timezone.localtime(date_value)
-        return f"{local_date:%H:%M} {local_date.day:02d} {month_names[local_date.month - 1]} {local_date.year}"
-
-    data = []
-    for review in my_reviews:
-        ticket = review.ticket
-        data.append({
-            'kind': 'review',
-            'type': 'Vous avez posté une critique',
-            'headline': review.headline,
-            'rating': review.rating,
-            'content': review.body,
-            'date': format_local_date(review.time_created),
-            'ticket_title': ticket.title if ticket else None,
-            'ticket_author': ticket.user.username if ticket else None,
-            'ticket_image': ticket.image.url if ticket and ticket.image else None,
-        })
-
-    for ticket in my_tickets:
-        data.append({
-            'kind': 'ticket',
-            'type': 'Vous avez demandé une critique',
-            'headline': ticket.title,
-            'content': ticket.description,
-            'ticket_id': ticket.id,
-            'date': format_local_date(ticket.time_created),
-        })
-
-    data.sort(key=lambda item: item['date'], reverse=True)
-    return render(request, "flux.html", {"flux": data})
-
-@login_required
 def edit_ticket(request, ticket_id):
+    """
+    Modifie un ticket existant.
+    Attributs :
+    - form : formulaire pour modifier le ticket
+    - ticket : instance du ticket à modifier
+    """
     ticket = get_object_or_404(Ticket, id=ticket_id)
     if ticket.user != request.user:
         return HttpResponseForbidden("Vous n'avez pas le droit de modifier ce ticket.")
@@ -99,12 +126,25 @@ def edit_ticket(request, ticket_id):
 @login_required
 @require_POST
 def delete_ticket(request, ticket_id):
+    """
+    Supprime un ticket existant.
+    Attributs :
+    - ticket : instance du ticket à supprimer
+    """
     ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
     ticket.delete()
     return redirect('posts')
 
 @login_required
 def posts(request):
+    """
+    Affiche la page de tous les posts (tickets et critiques) de l'utilisateur.
+    Attributs :
+    - tickets : liste des tickets de l'utilisateur
+    - reviews : liste des critiques de l'utilisateur
+    - visible_tickets : liste des tickets à afficher (exclut les tickets liés à une critique)
+    - posts : liste fusionnée de tickets et critiques à afficher
+    """
     tickets = Ticket.objects.filter(user=request.user)
     reviews = Review.objects.filter(user=request.user)
     # On ne veut pas afficher les tickets liés à une review créée en même temps (tickets "fantômes")
@@ -126,6 +166,12 @@ def posts(request):
 
 @login_required
 def edit_review(request, review_id):
+    """
+    Modifie une critique existante.
+    Attributs :
+    - form : formulaire pour modifier la critique
+    - review : instance de la critique à modifier
+    """
     review = get_object_or_404(Review, id=review_id)
     if review.user != request.user:
         return HttpResponseForbidden("Vous n'avez pas le droit de modifier cette critique.")
@@ -141,6 +187,16 @@ def edit_review(request, review_id):
 @login_required
 @require_POST
 def delete_review(request, review_id):
+    """
+    Supprime une critique existante.
+    Attributs :
+    - review : instance de la critique à supprimer
+    """
     review = get_object_or_404(Review, id=review_id, user=request.user)
     review.delete()
     return redirect('posts')
+
+@login_required
+def flux(request):
+    user = request.user
+    return render(request, "flux.html")

@@ -1,0 +1,62 @@
+/* Centrer les titres h3 */
+h3 {
+	text-align: center;
+}
+
+/* Centrer le formulaire de suivi */
+section form {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	margin-bottom: 1em;
+}
+
+/* Champ input avec placeholder personnalisé */
+input[name="username"] {
+	width: 60%;
+    text-align: center;
+	padding: 6px;
+	border-radius: 6px;
+	border: 1px solid #aaa;
+	font-size: 1em;
+}
+
+input[name="username"]::placeholder {
+	color: #bbb;
+}
+
+/* Tableaux abonnements et abonnés */
+table {
+	width: 80%;
+	margin: 1em auto;
+	border-collapse: collapse;
+}
+table td {
+	border: 2px solid #000000;
+	padding: 8px 12px;
+	text-align: left;
+}
+
+table td {
+	font-weight: bold;
+}
+
+/* Rendre la colonne "désabonner" étroite */
+table.abonnements td:last-child {
+	width: 1%;
+	white-space: nowrap;
+}
+
+/* Bouton désabonner invisible (seulement texte) */
+.unfollow-button {
+	background: none;
+    border: none;
+	color: #000000;
+    font-size: large;
+}
+.unfollow-button:hover, .unfollow-button:focus {
+	color: #ffffff;
+	text-decoration: underline;
+    background: linear-gradient(130deg,#000000c2,#222222ad);
+	border-radius: 25px;
+}
