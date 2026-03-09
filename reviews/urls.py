@@ -8,7 +8,7 @@ urlpatterns = [
 	path('ticket/<int:ticket_id>/delete/', views.delete_ticket, name='delete_ticket'),
 	path('review/<int:review_id>/edit/', views.edit_review, name='edit_review'),
 	path('review/<int:review_id>/delete/', views.delete_review, name='delete_review'),
-	path('flux/', views.flux, name='flux'),
-	path('posts/', views.PostListView.as_view(), name='posts'),
+
+
 	path('abonnements/', views.follow_users, name='follow_users'),
 ]

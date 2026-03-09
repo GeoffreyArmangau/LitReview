@@ -1,0 +1,31 @@
+<div class="post-card review review-flex">
+    <div class="review-main">
+        <div class="review-header">
+            <span class="review-pub">{{ post.user.username }} a publié une critique</span>
+            <span class="review-date">{{ post.time_created|date:'d/m/Y H:i' }}</span>
+        </div>
+        <div class="review-title-rating">
+            <span class="review-title">{{ post.headline }}</span>
+            <span class="review-stars">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= post.rating %}
+                        <span class="star">★</span>
+                    {% else %}
+                        <span class="star empty">☆</span>
+                    {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+        {% if post.body %}
+        <div class="review-body">{{ post.body }}</div>
+        {% endif %}
+    </div>
+    <div class="review-ticket-box">
+        <div class="ticket-label">Ticket associé</div>
+        <div class="ticket-title">{{ post.ticket.title }}</div>
+        {% if post.ticket.image %}
+        <div class="ticket-image"><img src="{{ post.ticket.image.url }}" alt="Image ticket" /></div>
+        {% endif %}
+    </div>
+
+</div>

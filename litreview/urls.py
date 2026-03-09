@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('reviews/', include('reviews.urls')),
     path('auth/', include('authentification.urls')),
+    path('feed/', include(('feed.urls', 'feed'), namespace='feed')),
     path('', home, name='home')
 ]
 

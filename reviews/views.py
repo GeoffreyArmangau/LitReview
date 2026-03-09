@@ -82,7 +82,7 @@ def create_review(request):
             review.user = request.user
             review.ticket = ticket
             review.save()
-            return redirect('flux')
+            return redirect('feed:feed')
     else:
         ticket_form = TicketForm()
         review_form = ReviewForm()
@@ -101,7 +101,7 @@ def create_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect('flux')
+            return redirect('feed:feed')
     else:
         form = TicketForm()
     return render(request, 'create_ticket.html', {'form': form})
@@ -121,7 +121,7 @@ def edit_ticket(request, ticket_id):
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('flux')
+            return redirect('feed:feed')
     else:
         form = TicketForm(instance=ticket)
     return render(request, 'edit_ticket.html', {'form': form, 'ticket': ticket})
@@ -137,32 +137,6 @@ def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
     ticket.delete()
     return redirect('posts')
-
-
-class PostListView(LoginRequiredMixin, ListView):
-    """
-    Vue pour afficher les posts (tickets et critiques) de l'utilisateur connecté.
-    """
-    template_name = 'posts.html'
-    context_object_name = 'posts'
-    login_url = reverse_lazy('login')
-
-    def get_queryset(self):
-        user = self.request.user
-        tickets = Ticket.objects.filter(user=user).order_by('-time_created')
-        reviews = Review.objects.filter(Q(user=user) | Q(ticket__user=user))
-        reviews_by_ticket = {}
-        for review in reviews:
-            reviews_by_ticket.setdefault(review.ticket_id, []).append(review)
-        # On prépare une liste où chaque ticket est suivi de sa/son review(s) associée(s)
-        posts = []
-        for ticket in tickets:
-            ticket.kind = 'ticket'
-            posts.append(ticket)
-            for review in reviews_by_ticket.get(ticket.id, []):
-                review.kind = 'review'
-                posts.append(review)
-        return posts
 
 @login_required
 def edit_review(request, review_id):
@@ -196,7 +170,4 @@ def delete_review(request, review_id):
     review.delete()
     return redirect('posts')
 
-@login_required
-def flux(request):
-    user = request.user
-    return render(request, "flux.html")
+

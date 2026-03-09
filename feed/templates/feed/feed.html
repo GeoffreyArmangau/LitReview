@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/flux.css' %}">
+<link rel="stylesheet" href="{% static 'css/posts.css' %}">
+{% endblock %}
+{% block content %}
+  <h2>Flux des critiques et tickets</h2>
+  <div class="button-container">
+      <a href="{% url 'create_ticket' %}" class="button-radius">Créer un ticket</a>
+      <a href="{% url 'create_review' %}" class="button-radius">Créer une critique</a>
+  </div>
+  <div class="posts-container" style="margin-top:32px;">
+    {% if posts %}
+      {% for post in posts %}
+        {% if post.content_type == 'TICKET' %}
+          {% include 'feed/ticket_snippet.html' %}
+        {% elif post.content_type == 'REVIEW' %}
+          {% include 'feed/review_snippet.html' %}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <div class="post-card"><em>Aucun post à afficher.</em></div>
+    {% endif %}
+  </div>
+{% endblock %}

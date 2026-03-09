@@ -63,14 +63,12 @@ a {
     color: black;
 }
 
-.button, .button-radius, .file-button {
+.button-radius {
     background: #fdd398c4;
     padding: 8px 16px;
     border: 2px solid black;
-}
-
-.button-radius, .file-button {
     border-radius: 10px;
+    text-align: center;
 }
 
 .nav{
@@ -84,6 +82,5 @@ a {
     border: #ffa32be8 solid 2px;
     background: linear-gradient(130deg,#000000c2,#222222ad);
     color: bisque;
-
 }
 

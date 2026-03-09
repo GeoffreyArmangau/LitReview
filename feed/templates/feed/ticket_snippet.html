@@ -1,0 +1,14 @@
+<div class="post-card ticket">
+    <div class="review-header">
+        <span class="review-pub">{{ post.user.username }} a créé un ticket</span>
+        <span class="review-date">{{ post.time_created|date:'d/m/Y H:i' }}</span>
+    </div>
+    <div class="post-title" style="margin-bottom: 8px;">{{ post.title }}</div>
+    {% if post.description %}
+    <div class="post-content">{{ post.description }}</div>
+    {% endif %}
+    {% if post.image %}
+    <div class="ticket-image"><img src="{{ post.image.url }}" alt="Image ticket" /></div>
+    {% endif %}
+
+</div>

@@ -14,7 +14,7 @@
       {% if user.is_authenticated %}
         <form method="post" action="{% url 'logout' %}" class="logout-form">
           {% csrf_token %}
-          <button type="submit" class="button">Déconnexion</button>
+          <button type="submit" class="button-radius">Déconnexion</button>
         </form>
       {% else %}
         <form method="post" action="{% url 'login' %}" class="login-form">
