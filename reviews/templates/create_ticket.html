@@ -13,8 +13,13 @@
         {{ form.description.label_tag }}
         {{ form.description }}
         <label class="custom-file-label" for="id_image">Image</label>
-        {{ form.image }}
+        <div class="file-upload-wrapper">
+            <label for="id_image" class="button-radius file-upload-label">Télécharger une image</label>
+            {{ form.image }}
+        </div>
         <button type="submit" class="button-radius">Envoyer</button>
     </form>
 </div>
 {% endblock %}
+
+

@@ -8,7 +8,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: radial-gradient(#f8edacb0, #fae46979, #ffbd6077);
+    background: radial-gradient(#ece4b2cb,#f8edacab, #fae4698e, #ffbd6073);
     background-repeat: no-repeat;
     background-position: center;
 }

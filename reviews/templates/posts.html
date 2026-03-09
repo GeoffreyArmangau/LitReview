@@ -1,35 +1,75 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/create_ticket.css' %}">
+<link rel="stylesheet" href="{% static 'css/posts.css' %}">
 {% endblock %}
 {% block content %}
 <div class="posts-container">
-    <h2>Vos posts</h2>
-    <ul>
-        {% for post in posts %}
-            {% if post.kind == 'ticket' %}
-                <li>
-                    <strong>{{ post.title }}</strong> - {{ post.description|default:"(pas de description)" }}
-                    <a href="{% url 'edit_ticket' post.id %}" class="button-radius">Modifier</a>
-                    <form action="{% url 'delete_ticket' post.id %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="button-radius" onclick="return confirm('Supprimer ce billet ?');">Supprimer</button>
-                    </form>
-                </li>
-            {% elif post.kind == 'review' %}
-                <li>
-                    <strong>{{ post.headline }}</strong> ({{ post.rating }}/5) - {{ post.body|default:"(pas de commentaire)" }}
-                    <a href="{% url 'edit_review' post.id %}" class="button-radius">Modifier</a>
-                    <form action="{% url 'delete_review' post.id %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="button-radius" onclick="return confirm('Supprimer cette critique ?');">Supprimer</button>
-                    </form>
-                </li>
+    <h2 style="margin-bottom: 30px;">Vos posts</h2>
+    {% for post in posts %}
+        {% if post.kind == 'review' %}
+        <div class="post-card review review-flex">
+            <div class="review-main">
+                <div class="review-header">
+                    <span class="review-pub">Vous avez publié une critique</span>
+                    <span class="review-date">{{ post.time_created|date:'d/m/Y H:i' }}</span>
+                </div>
+                <div class="review-title-rating">
+                    <span class="review-title">{{ post.headline }}</span>
+                    <span class="review-stars">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= post.rating %}
+                                <span class="star">★</span>
+                            {% else %}
+                                <span class="star empty">☆</span>
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                </div>
+                {% if post.body %}
+                <div class="review-body">{{ post.body }}</div>
+                {% endif %}
+                <!-- Les boutons sont déplacés sous le ticket associé, donc on retire ce bloc -->
+            </div>
+            <div class="review-ticket-box">
+                <div class="ticket-label">Ticket associé</div>
+                <div class="ticket-title">{{ post.ticket.title }}</div>
+                {% if post.ticket.image %}
+                <div class="ticket-image"><img src="{{ post.ticket.image.url }}" alt="Image ticket" /></div>
+                {% endif %}
+            </div>
+            <div class="post-actions" style="margin-top:16px;">
+                <a href="{% url 'edit_review' post.id %}" class="button-radius">Modifier</a>
+                <form action="{% url 'delete_review' post.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="button-radius" onclick="return confirm('Supprimer cette critique ?');">Supprimer</button>
+                </form>
+            </div>
+        </div>
+        {% elif post.kind == 'ticket' %}
+        <div class="post-card ticket">
+            <div class="review-header">
+                <span class="review-pub">Vous avez créé un ticket</span>
+                <span class="review-date">{{ post.time_created|date:'d/m/Y H:i' }}</span>
+            </div>
+            <div class="post-title" style="margin-bottom: 8px;">{{ post.title }}</div>
+            {% if post.description %}
+            <div class="post-content">{{ post.description }}</div>
             {% endif %}
-        {% empty %}
-        <li>Aucun post.</li>
-        {% endfor %}
-    </ul>
+            {% if post.image %}
+            <div class="ticket-image"><img src="{{ post.image.url }}" alt="Image ticket" /></div>
+            {% endif %}
+            <div class="post-actions" style="margin-bottom:32px;">
+                <a href="{% url 'edit_ticket' post.id %}" class="button-radius">Modifier</a>
+                <form action="{% url 'delete_ticket' post.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="button-radius" onclick="return confirm('Supprimer ce billet ?');">Supprimer</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    {% empty %}
+        <div class="post-card"><em>Aucun post.</em></div>
+    {% endfor %}
 </div>
 {% endblock %}

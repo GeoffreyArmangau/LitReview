@@ -35,13 +35,21 @@
     box-sizing: border-box;
 }
 
-/* Personnalisation du champ image */
-.form-container input[type="file"] {
-    display: none;
+/* Personnalisation du bouton d'import d'image */
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
 }
-
-.custom-file-label {
-    display: block;
+.file-upload-label {
+    cursor: pointer;
+    margin-right: 16px;
+    width: 200px;
+    text-align: center;
+    align-self: flex-start;
+}
+.custom-file-input {
+    display: none;
 }
 
 h2 {

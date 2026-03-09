@@ -33,6 +33,7 @@ class TicketForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Titre de l’article'}),
             'description': forms.Textarea(attrs={'placeholder': 'Décris l’article'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
         }
 
 class ReviewForm(forms.ModelForm):
@@ -52,6 +53,6 @@ class ReviewForm(forms.ModelForm):
             'body': 'Commentaire',
         }
         widgets = {
-            'headline': forms.TextInput(attrs={'placeholder': 'Titre de la critique', 'autofocus': 'autofocus'}),
+            'headline': forms.TextInput(attrs={'placeholder': 'Titre de la critique'}),
             'body': forms.Textarea(attrs={'placeholder': 'Votre commentaire'}),
         }

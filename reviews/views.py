@@ -7,6 +7,10 @@ from authentification.models import UserFollows, CustomUser
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.views.decorators.http import require_POST
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Value, CharField, Q
+from django.urls import reverse_lazy
 
 @login_required
 def follow_users(request):
@@ -60,7 +64,6 @@ def follow_users(request):
 
 @login_required
 def create_review(request):
-    
     """
     Crée une critique avec un ticket associé.
     Attributs :
@@ -135,34 +138,31 @@ def delete_ticket(request, ticket_id):
     ticket.delete()
     return redirect('posts')
 
-@login_required
-def posts(request):
+
+class PostListView(LoginRequiredMixin, ListView):
     """
-    Affiche la page de tous les posts (tickets et critiques) de l'utilisateur.
-    Attributs :
-    - tickets : liste des tickets de l'utilisateur
-    - reviews : liste des critiques de l'utilisateur
-    - visible_tickets : liste des tickets à afficher (exclut les tickets liés à une critique)
-    - posts : liste fusionnée de tickets et critiques à afficher
+    Vue pour afficher les posts (tickets et critiques) de l'utilisateur connecté.
     """
-    tickets = Ticket.objects.filter(user=request.user)
-    reviews = Review.objects.filter(user=request.user)
-    # On ne veut pas afficher les tickets liés à une review créée en même temps (tickets "fantômes")
-    ticket_ids_with_review = set(Review.objects.values_list('ticket_id', flat=True))
-    visible_tickets = tickets.exclude(id__in=ticket_ids_with_review)
-    # Prépare la liste fusionnée
-    posts = list(visible_tickets)
-    for review in reviews:
-        posts.append(review)
-    # Ajoute un attribut 'kind' pour différencier dans le template
-    for post in posts:
-        if isinstance(post, Ticket):
-            post.kind = 'ticket'
-        else:
-            post.kind = 'review'
-    # Trie par date décroissante
-    posts.sort(key=lambda x: x.time_created, reverse=True)
-    return render(request, 'posts.html', {'posts': posts})
+    template_name = 'posts.html'
+    context_object_name = 'posts'
+    login_url = reverse_lazy('login')
+
+    def get_queryset(self):
+        user = self.request.user
+        tickets = Ticket.objects.filter(user=user).order_by('-time_created')
+        reviews = Review.objects.filter(Q(user=user) | Q(ticket__user=user))
+        reviews_by_ticket = {}
+        for review in reviews:
+            reviews_by_ticket.setdefault(review.ticket_id, []).append(review)
+        # On prépare une liste où chaque ticket est suivi de sa/son review(s) associée(s)
+        posts = []
+        for ticket in tickets:
+            ticket.kind = 'ticket'
+            posts.append(ticket)
+            for review in reviews_by_ticket.get(ticket.id, []):
+                review.kind = 'review'
+                posts.append(review)
+        return posts
 
 @login_required
 def edit_review(request, review_id):
