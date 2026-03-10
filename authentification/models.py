@@ -4,18 +4,17 @@ from django.db import models
 # création de modèles personnalisés pour les utilisateurs
 # avec des rôles et des relations de suivi
 
+
 class CustomUser(AbstractUser):
-
-
     """
     Modèle utilisateur personnalisé avec des rôles et des relations de suivi.
     Attributs :
         - role : champ de choix pour différencier les rôles d'utilisateur
           (USER ou DEVELOPER)
-        - is_developer : champ booléen indiquant si l'utilisateur est un développeur
+        - is_developer : champ booléen indiquant si l'utilisateur
+          est un développeur ou non.
     Méthodes :
-        - save : surcharge de la méthode de sauvegarde pour gérer les groupes
-          d'utilisateurs en fonction du rôle
+        - save : gère les groupes d'utilisateurs en fonction du rôle
     """
     ROLE_USER = 'USER'
     ROLE_DEVELOPER = 'DEVELOPER'
@@ -33,9 +32,11 @@ class CustomUser(AbstractUser):
 
     def save(self, *args, **kwargs):
         """
-        Surcharge de la méthode de sauvegarde pour gérer les groupes d'utilisateurs en fonction du rôle.
-        - Si le rôle est DEVELOPER, l'utilisateur est ajouté au groupe "developers" et retiré du groupe "users".
-        - Si le rôle est USER, l'utilisateur est ajouté au groupe "users" et retiré du groupe "developers".
+        Gérer les groupes d'utilisateurs en fonction du rôle.
+        - Si le rôle est DEVELOPER, l'utilisateur
+          est ajouté au groupe "developers".
+        - Si le rôle est USER, l'utilisateur
+          est ajouté au groupe "users".
         """
         self.is_developer = self.role == self.ROLE_DEVELOPER
         super().save(*args, **kwargs)
@@ -51,9 +52,8 @@ class CustomUser(AbstractUser):
 
 # création de modèle pour les relations de suivi entre les utilisateurs
 
+
 class UserFollows(models.Model):
-
-
     """
     Modèle pour représenter les relations de suivi entre les utilisateurs.
     Attributs :

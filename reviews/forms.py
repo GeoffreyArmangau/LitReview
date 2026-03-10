@@ -1,7 +1,6 @@
 from django import forms
 from .models import Ticket, Review
 
- 
 
 class FollowUserForm(forms.Form):
     """
@@ -15,7 +14,6 @@ class FollowUserForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': "Nom d'utilisateur"})
     )
 
- 
 
 class TicketForm(forms.ModelForm):
     """
@@ -45,7 +43,6 @@ class TicketForm(forms.ModelForm):
             ),
         }
 
- 
 
 class ReviewForm(forms.ModelForm):
     """

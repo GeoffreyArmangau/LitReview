@@ -57,7 +57,10 @@ def follow_users(request):
         unfollow_id = request.POST.get('unfollow_user_id')
         try:
             to_unfollow = CustomUser.objects.get(id=unfollow_id)
-            UserFollows.objects.filter(user=user, followed_user=to_unfollow).delete()
+            UserFollows.objects.filter(
+                user=user,
+                followed_user=to_unfollow
+            ).delete()
             messages.success(
                 request,
                 f"Vous êtes désabonné de {to_unfollow.username}."
@@ -66,15 +69,20 @@ def follow_users(request):
             messages.error(request, "Utilisateur à désabonner introuvable.")
 
     # Mes abonnements
-    abonnements = UserFollows.objects.filter(user=user).select_related('followed_user')
+    abonnements = UserFollows.objects.filter(user=user).select_related(
+        'followed_user'
+        )
     # Mes abonnés
-    abonnes = UserFollows.objects.filter(followed_user=user).select_related('user')
+    abonnes = UserFollows.objects.filter(followed_user=user).select_related(
+        'user'
+        )
 
     return render(request, 'follow_users.html', {
         'follow_form': follow_form,
         'abonnements': abonnements,
         'abonnes': abonnes,
     })
+
 
 @login_required
 def create_review(request):
@@ -100,7 +108,14 @@ def create_review(request):
     else:
         ticket_form = TicketForm()
         review_form = ReviewForm()
-    return render(request, 'create_review.html', {'ticket_form': ticket_form, 'review_form': review_form})
+    return render(
+        request,
+        'create_review.html', {
+            'ticket_form': ticket_form,
+            'review_form': review_form
+            }
+        )
+
 
 @login_required
 def create_ticket(request):
@@ -120,6 +135,7 @@ def create_ticket(request):
         form = TicketForm()
     return render(request, 'create_ticket.html', {'form': form})
 
+
 @login_required
 def edit_ticket(request, ticket_id):
     """
@@ -130,7 +146,8 @@ def edit_ticket(request, ticket_id):
     """
     ticket = get_object_or_404(Ticket, id=ticket_id)
     if ticket.user != request.user:
-        return HttpResponseForbidden("Vous n'avez pas le droit de modifier ce ticket.")
+        return HttpResponseForbidden(
+            "Vous n'avez pas le droit de modifier ce ticket.")
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
@@ -138,7 +155,14 @@ def edit_ticket(request, ticket_id):
             return redirect('feed')
     else:
         form = TicketForm(instance=ticket)
-    return render(request, 'edit_ticket.html', {'form': form, 'ticket': ticket})
+    return render(
+        request,
+        'edit_ticket.html', {
+            'form': form,
+            'ticket': ticket
+            }
+        )
+
 
 @login_required
 @require_POST
@@ -152,6 +176,7 @@ def delete_ticket(request, ticket_id):
     ticket.delete()
     return redirect('posts')
 
+
 @login_required
 def edit_review(request, review_id):
     """
@@ -162,7 +187,9 @@ def edit_review(request, review_id):
     """
     review = get_object_or_404(Review, id=review_id)
     if review.user != request.user:
-        return HttpResponseForbidden("Vous n'avez pas le droit de modifier cette critique.")
+        return HttpResponseForbidden(
+            "Vous n'avez pas le droit de modifier cette critique."
+        )
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
@@ -170,7 +197,14 @@ def edit_review(request, review_id):
             return redirect('posts')
     else:
         form = ReviewForm(instance=review)
-    return render(request, 'edit_review.html', {'form': form, 'review': review})
+    return render(
+        request,
+        'edit_review.html', {
+            'form': form,
+            'review': review
+            }
+        )
+
 
 @login_required
 @require_POST
@@ -183,6 +217,7 @@ def delete_review(request, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
     review.delete()
     return redirect('posts')
+
 
 @login_required
 def create_review_answer(request, ticket_id):
@@ -201,4 +236,10 @@ def create_review_answer(request, ticket_id):
             return redirect('feed')
     else:
         review_form = ReviewForm()
-    return render(request, 'create_review_answer.html', {'ticket': ticket, 'review_form': review_form})
+    return render(
+        request,
+        'create_review_answer.html', {
+            'ticket': ticket,
+            'review_form': review_form
+            }
+        )

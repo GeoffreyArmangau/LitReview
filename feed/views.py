@@ -8,6 +8,7 @@ from itertools import chain
 from reviews.models import Ticket, Review
 from authentification.models import UserFollows
 
+
 def feed(request):
     user = request.user
     if not user.is_authenticated:
@@ -16,19 +17,23 @@ def feed(request):
 
     def get_users_viewable_tickets(user):
         # Tickets de l'utilisateur et des utilisateurs suivis
-        followed_users = UserFollows.objects.filter(user=user).values_list(
-            'followed_user', flat=True
-        )
+        followed_users = UserFollows.objects.filter(
+            user=user).values_list(
+                'followed_user', flat=True
+                )
         tickets = Ticket.objects.filter(
             Q(user=user) | Q(user__in=followed_users)
         )
-        return tickets.annotate(content_type=Value('TICKET', CharField()))
+        return tickets.annotate(
+            content_type=Value('TICKET', CharField())
+            )
 
     def get_users_viewable_reviews(user):
         # Reviews de l'utilisateur, des suivis, et reviews sur les tickets de l'utilisateur
-        followed_users = UserFollows.objects.filter(user=user).values_list(
-            'followed_user', flat=True
-        )
+        followed_users = UserFollows.objects.filter(
+            user=user).values_list(
+                'followed_user', flat=True
+                )
         reviews = Review.objects.filter(
             Q(user=user) |
             Q(user__in=followed_users) |
@@ -52,10 +57,9 @@ def feed(request):
     )
 
 
-
 class PostListView(LoginRequiredMixin, ListView):
     """
-    Vue pour afficher les posts (tickets et critiques) de l'utilisateur connecté.
+    Vue pour afficher les posts de l'utilisateur connecté.
     """
     template_name = 'feed/post.html'
     context_object_name = 'posts'
@@ -68,7 +72,7 @@ class PostListView(LoginRequiredMixin, ListView):
         reviews_by_ticket = {}
         for review in reviews:
             reviews_by_ticket.setdefault(review.ticket_id, []).append(review)
-        # On prépare une liste où chaque ticket est suivi de sa/son review(s) associée(s)
+        # Liste où chaque ticket est suivi de sa/son review(s) associée(s)
         posts = []
         for ticket in tickets:
             ticket.kind = 'ticket'
