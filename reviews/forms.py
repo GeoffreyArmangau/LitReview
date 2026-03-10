@@ -15,6 +15,7 @@ class FollowUserForm(forms.Form):
     )
 
 
+
 class TicketForm(forms.ModelForm):
     """
     Formulaire pour créer un ticket.
@@ -38,7 +39,7 @@ class TicketForm(forms.ModelForm):
             'description': forms.Textarea(
                 attrs={'placeholder': 'Décris l’article'}
             ),
-            'image': forms.ClearableFileInput(
+            'image': forms.FileInput(
                 attrs={'class': 'custom-file-input'}
             ),
         }

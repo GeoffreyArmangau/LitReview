@@ -12,8 +12,21 @@
         {{ form.title }}
         {{ form.description.label_tag }}
         {{ form.description }}
-        <label class="custom-file-label" for="id_image">Image</label>
-        {{ form.image }}
+        <div class="file-upload-wrapper">
+            {% if ticket.image %}
+                <div class="current-image-block">
+                    <img src="{{ ticket.image.url }}" alt="Image du ticket" class="ticket-image-preview" />
+                    <form method="post" action="" class="delete-image-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="delete_image" value="1">
+                        <button type="submit" class="button-radius">Effacer l'image</button>
+                    </form>
+                </div>
+            {% else %}
+                <label for="id_image" class="button-radius file-upload-label">Télécharger une nouvelle image</label>
+                {{ form.image }}
+            {% endif %}
+        </div>
         <button type="submit" class="button-radius">Enregistrer les modifications</button>
     </form>
 </div>

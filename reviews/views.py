@@ -149,10 +149,18 @@ def edit_ticket(request, ticket_id):
         return HttpResponseForbidden(
             "Vous n'avez pas le droit de modifier ce ticket.")
     if request.method == 'POST':
-        form = TicketForm(request.POST, request.FILES, instance=ticket)
-        if form.is_valid():
-            form.save()
-            return redirect('feed')
+        if 'delete_image' in request.POST:
+            # Suppression de l'image actuelle
+            if ticket.image:
+                ticket.image.delete(save=False)
+                ticket.image = None
+                ticket.save()
+            form = TicketForm(instance=ticket)
+        else:
+            form = TicketForm(request.POST, request.FILES, instance=ticket)
+            if form.is_valid():
+                form.save()
+                return redirect('feed')
     else:
         form = TicketForm(instance=ticket)
     return render(
