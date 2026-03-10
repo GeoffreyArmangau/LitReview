@@ -23,3 +23,7 @@ media/
 **/*.tiff
 **/*.svg
 **/*.webp
+
+# Rapports de style Python
+flake8-report.txt
+autopep8-report.txt

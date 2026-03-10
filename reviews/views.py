@@ -1,21 +1,17 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import timezone
 from .models import Ticket, Review
 from .forms import TicketForm, ReviewForm, FollowUserForm
 from authentification.models import UserFollows, CustomUser
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Value, CharField, Q
-from django.urls import reverse_lazy
+
 
 @login_required
 def follow_users(request):
     """
-    Affiche la page de gestion des abonnements et traite les actions de suivi/désabonnement.
+    Affiche la page de gestion des abonnements suivi/désabonnement.
     Attributs :
     - follow_form : formulaire pour suivre un nouvel utilisateur
     - abonnements : liste des utilisateurs que l'utilisateur actuel suit
@@ -30,12 +26,27 @@ def follow_users(request):
             try:
                 to_follow = CustomUser.objects.get(username=username)
                 if to_follow == user:
-                    messages.error(request, "Vous ne pouvez pas vous suivre vous-même.")
-                elif UserFollows.objects.filter(user=user, followed_user=to_follow).exists():
-                    messages.info(request, f"Vous suivez déjà {username}.")
+                    messages.error(
+                        request,
+                        "Vous ne pouvez pas vous suivre vous-même."
+                    )
+                elif UserFollows.objects.filter(
+                    user=user,
+                    followed_user=to_follow
+                ).exists():
+                    messages.info(
+                        request,
+                        f"Vous suivez déjà {username}."
+                    )
                 else:
-                    UserFollows.objects.create(user=user, followed_user=to_follow)
-                    messages.success(request, f"Vous suivez maintenant {username}.")
+                    UserFollows.objects.create(
+                        user=user,
+                        followed_user=to_follow
+                    )
+                    messages.success(
+                        request,
+                        f"Vous suivez maintenant {username}."
+                    )
             except CustomUser.DoesNotExist:
                 messages.error(request, "Utilisateur non trouvé.")
     else:
@@ -47,7 +58,10 @@ def follow_users(request):
         try:
             to_unfollow = CustomUser.objects.get(id=unfollow_id)
             UserFollows.objects.filter(user=user, followed_user=to_unfollow).delete()
-            messages.success(request, f"Vous êtes désabonné de {to_unfollow.username}.")
+            messages.success(
+                request,
+                f"Vous êtes désabonné de {to_unfollow.username}."
+            )
         except CustomUser.DoesNotExist:
             messages.error(request, "Utilisateur à désabonner introuvable.")
 

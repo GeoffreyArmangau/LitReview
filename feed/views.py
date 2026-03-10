@@ -16,13 +16,19 @@ def feed(request):
 
     def get_users_viewable_tickets(user):
         # Tickets de l'utilisateur et des utilisateurs suivis
-        followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
-        tickets = Ticket.objects.filter(Q(user=user) | Q(user__in=followed_users))
+        followed_users = UserFollows.objects.filter(user=user).values_list(
+            'followed_user', flat=True
+        )
+        tickets = Ticket.objects.filter(
+            Q(user=user) | Q(user__in=followed_users)
+        )
         return tickets.annotate(content_type=Value('TICKET', CharField()))
 
     def get_users_viewable_reviews(user):
         # Reviews de l'utilisateur, des suivis, et reviews sur les tickets de l'utilisateur
-        followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
+        followed_users = UserFollows.objects.filter(user=user).values_list(
+            'followed_user', flat=True
+        )
         reviews = Review.objects.filter(
             Q(user=user) |
             Q(user__in=followed_users) |
@@ -37,7 +43,15 @@ def feed(request):
         key=lambda post: post.time_created,
         reverse=True
     )
-    return render(request, 'feed/feed.html', {'posts': posts})
+    return render(
+        request,
+        'feed/feed.html',
+        {
+            'posts': posts
+        }
+    )
+
+
 
 class PostListView(LoginRequiredMixin, ListView):
     """

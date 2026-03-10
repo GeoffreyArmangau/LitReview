@@ -10,12 +10,18 @@ class CustomLoginView(LoginView):
 	template_name = "login.html"
 	redirect_authenticated_user = True
 
+
+
 class CustomLogoutView(LogoutView):
-	next_page = "/"  
+	next_page = "/"
+
+
 
 def logout_view(request):
 	logout(request)
 	return redirect("home")
+
+
 
 def signup_view(request):
 	if request.user.is_authenticated:
@@ -33,6 +39,8 @@ def signup_view(request):
 	else:
 		form = CustomSignupForm()
 	return render(request, "signup.html", {"form": form})
+
+
 
 def home(request):
 	form = AuthenticationForm()

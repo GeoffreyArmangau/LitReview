@@ -1,6 +1,7 @@
 from django import forms
 from .models import Ticket, Review
-from authentification.models import CustomUser
+
+ 
 
 class FollowUserForm(forms.Form):
     """
@@ -13,6 +14,8 @@ class FollowUserForm(forms.Form):
         max_length=150,
         widget=forms.TextInput(attrs={'placeholder': "Nom d'utilisateur"})
     )
+
+ 
 
 class TicketForm(forms.ModelForm):
     """
@@ -31,10 +34,18 @@ class TicketForm(forms.ModelForm):
             'image': 'Image',
         }
         widgets = {
-            'title': forms.TextInput(attrs={'placeholder': 'Titre de l’article'}),
-            'description': forms.Textarea(attrs={'placeholder': 'Décris l’article'}),
-            'image': forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
+            'title': forms.TextInput(
+                attrs={'placeholder': 'Titre de l’article'}
+            ),
+            'description': forms.Textarea(
+                attrs={'placeholder': 'Décris l’article'}
+            ),
+            'image': forms.ClearableFileInput(
+                attrs={'class': 'custom-file-input'}
+            ),
         }
+
+ 
 
 class ReviewForm(forms.ModelForm):
     """
@@ -53,6 +64,10 @@ class ReviewForm(forms.ModelForm):
             'body': 'Commentaire',
         }
         widgets = {
-            'headline': forms.TextInput(attrs={'placeholder': 'Titre de la critique'}),
-            'body': forms.Textarea(attrs={'placeholder': 'Votre commentaire'}),
+            'headline': forms.TextInput(
+                attrs={'placeholder': 'Titre de la critique'}
+            ),
+            'body': forms.Textarea(
+                attrs={'placeholder': 'Votre commentaire'}
+            ),
         }
