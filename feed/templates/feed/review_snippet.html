@@ -1,7 +1,10 @@
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/flux.css' %}">
 <div class="post-card review review-flex">
     <div class="review-main">
         <div class="review-header">
-            <span class="review-pub">{{ post.user.username }} a publié une critique</span>
+            <span class="review-pub">{{ post.user.username }} a publié une <span class="critique-font"> critique</span></span>
             <span class="review-date">{{ post.time_created|date:'d/m/Y H:i' }}</span>
         </div>
         <div class="review-title-rating">
@@ -20,6 +23,9 @@
         <div class="review-body">{{ post.body }}</div>
         {% endif %}
     </div>
+    {% if user.is_authenticated and post.user != user %}
+    <a href="{% url 'create_review_answer' post.ticket.id %}" class="button-radius-answer">Répondre à ce ticket</a>
+    {% endif %}
     <div class="review-ticket-box">
         <div class="ticket-label">Ticket associé</div>
         <div class="ticket-title">{{ post.ticket.title }}</div>
@@ -27,5 +33,5 @@
         <div class="ticket-image"><img src="{{ post.ticket.image.url }}" alt="Image ticket" /></div>
         {% endif %}
     </div>
-
 </div>
+{% endblock %}

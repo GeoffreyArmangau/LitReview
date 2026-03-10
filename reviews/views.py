@@ -82,7 +82,7 @@ def create_review(request):
             review.user = request.user
             review.ticket = ticket
             review.save()
-            return redirect('feed:feed')
+            return redirect('feed')
     else:
         ticket_form = TicketForm()
         review_form = ReviewForm()
@@ -101,7 +101,7 @@ def create_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect('feed:feed')
+            return redirect('feed')
     else:
         form = TicketForm()
     return render(request, 'create_ticket.html', {'form': form})
@@ -121,7 +121,7 @@ def edit_ticket(request, ticket_id):
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('feed:feed')
+            return redirect('feed')
     else:
         form = TicketForm(instance=ticket)
     return render(request, 'edit_ticket.html', {'form': form, 'ticket': ticket})
@@ -170,4 +170,21 @@ def delete_review(request, review_id):
     review.delete()
     return redirect('posts')
 
-
+@login_required
+def create_review_answer(request, ticket_id):
+    """
+    Permet de répondre à un ticket existant (créé par un autre utilisateur).
+    Affiche le ticket et un formulaire de critique.
+    """
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    if request.method == 'POST':
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+            return redirect('feed')
+    else:
+        review_form = ReviewForm()
+    return render(request, 'create_review_answer.html', {'ticket': ticket, 'review_form': review_form})

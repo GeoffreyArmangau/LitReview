@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create_ticket.css' %}">
+{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Répondre à un ticket</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Ticket</legend>
+            <div class="ticket-info">
+                <strong>Titre :</strong> {{ ticket.title }}<br>
+                <strong>Description :</strong> {{ ticket.description }}<br>
+                {% if ticket.image %}
+                <div class="ticket-image"><img src="{{ ticket.image.url }}" alt="Image ticket" /></div>
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="separator"></div>
+        <fieldset>
+            <legend>Critique</legend>
+            {{ review_form.headline.label_tag }}
+            {{ review_form.headline }}
+            <label>Note</label>
+            <div class="rating-group">
+                {% for i in "012345" %}
+                    <input type="radio" name="rating" id="rating_{{ i }}" value="{{ i }}" {% if review_form.rating.value|stringformat:'s' == i %}checked{% endif %}>
+                    <label for="rating_{{ i }}">{{ i }}</label>
+                {% endfor %}
+            </div>
+            {{ review_form.body.label_tag }}
+            {{ review_form.body }}
+        </fieldset>
+        <button type="submit" class="button-radius">Envoyer</button>
+    </form>
+</div>
+{% block extra_js %}{% endblock %}
+{% endblock %}

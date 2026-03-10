@@ -19,7 +19,7 @@ def logout_view(request):
 
 def signup_view(request):
 	if request.user.is_authenticated:
-		return redirect("flux")
+		return redirect("feed")
 	User = get_user_model()
 	if request.method == "POST":
 		form = CustomSignupForm(request.POST)

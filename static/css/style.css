@@ -63,12 +63,23 @@ a {
     color: black;
 }
 
-.button-radius {
+.button-radius, .button-radius-answer {
     background: #fdd398c4;
     padding: 8px 16px;
     border: 2px solid black;
     border-radius: 10px;
     text-align: center;
+}
+
+.button-radius-answer{
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    margin: 15px;
+    display: block;
+}
+.ticket-image {
+    position: relative;
 }
 
 .nav{
@@ -78,7 +89,7 @@ a {
     border-radius: 25px;
 }
 
-.nav:hover, .button-radius:hover{
+.nav:hover, .button-radius:hover, .button-radius-answer:hover{
     border: #ffa32be8 solid 2px;
     background: linear-gradient(130deg,#000000c2,#222222ad);
     color: bisque;

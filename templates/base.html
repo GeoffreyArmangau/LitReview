@@ -13,8 +13,8 @@
             <h1>LitReview</h1>
             {% if user.is_authenticated %}
             <nav>
-                <a href="{% url 'feed:feed' %}" class="nav">Flux</a>
-                <a href="{% url 'feed:posts' %}" class="nav">Posts</a>
+                <a href="{% url 'feed' %}" class="nav">feed</a>
+                <a href="{% url 'posts' %}" class="nav">Posts</a>
                 <a href="{% url 'follow_users' %}" class="nav">Abonnements</a>
                 <a href="{% url 'logout' %}" class="nav">Se déconnecter</a>
             </nav>

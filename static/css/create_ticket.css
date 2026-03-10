@@ -1,3 +1,9 @@
+.ticket-image img {
+    max-width: 300px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+}
 /* Séparateur pour la création ticket+critique */
 .separator {
     border-top: 2px solid #bbb;

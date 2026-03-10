@@ -120,7 +120,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 AUTH_USER_MODEL = 'authentification.CustomUser'
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'flux'
+LOGIN_REDIRECT_URL = 'feed'
 LOGOUT_REDIRECT_URL = 'login'
 
 MEDIA_URL = '/media/'

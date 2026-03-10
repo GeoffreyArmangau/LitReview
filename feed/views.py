@@ -10,6 +10,9 @@ from authentification.models import UserFollows
 
 def feed(request):
     user = request.user
+    if not user.is_authenticated:
+        from django.shortcuts import redirect
+        return redirect('login')
 
     def get_users_viewable_tickets(user):
         # Tickets de l'utilisateur et des utilisateurs suivis

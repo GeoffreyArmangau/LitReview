@@ -1,14 +1,23 @@
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/flux.css' %}">
 <div class="post-card ticket">
     <div class="review-header">
-        <span class="review-pub">{{ post.user.username }} a créé un ticket</span>
+        <span class="review-pub">{{ post.user.username }} a créé un <span class="ticket-font">ticket</span></span>
         <span class="review-date">{{ post.time_created|date:'d/m/Y H:i' }}</span>
     </div>
     <div class="post-title" style="margin-bottom: 8px;">{{ post.title }}</div>
     {% if post.description %}
     <div class="post-content">{{ post.description }}</div>
     {% endif %}
-    {% if post.image %}
-    <div class="ticket-image"><img src="{{ post.image.url }}" alt="Image ticket" /></div>
-    {% endif %}
 
+    {% if post.image %}
+    <div class="ticket-image">
+        <img src="{{ post.image.url }}" alt="Image ticket" />
+        {% if user.is_authenticated and post.user != user and post.reviews.count == 0 %}
+            <a href="{% url 'create_review_answer' post.id %}" class="button-radius-answer" style="margin-top: 8px; margin-left: 12px; display: inline-block;">Répondre à ce ticket</a>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
+{% endblock %}

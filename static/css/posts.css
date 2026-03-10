@@ -9,10 +9,10 @@
 .post-card {
     background: #f7f7f7;
     border: 1px solid #000;
-    border-radius: 0;
+    border-radius: 20px;
     box-shadow: none;
     margin-bottom: 32px;
-    padding: 24px 28px 18px 28px;
+    padding: 24px;
     position: relative;
 }
 
@@ -48,7 +48,7 @@
     margin-bottom: 8px;
 }
 
-.review-pub, .revie-date, .review-title, .review-stars {
+.review-pub, .review-date, .review-title, .review-stars {
     font-weight: bold;
     font-size: 1.05rem;
 }
@@ -86,7 +86,7 @@
 
 .ticket-image img {
     max-width: 100%;
-    max-height: 110px;
+    max-height: 150px;
     margin-top: 4px;
     margin-bottom: 4px;
     padding: 8px
@@ -105,11 +105,37 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px 10px 8px 10px;
+    padding: 10px;
 }
 
 .post-card.ticket, .post-card.review {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: 4;
 }
 
+.post-card.ticket{
+    box-shadow: -12px 0 8px -4px #1a1ef5;
+}
+
+.post-card.review {
+    box-shadow: -12px 0 8px -4px #db6617;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: auto;
+}
+ .critique-font{
+    color : #ec6d18;
+    border-radius: 20px;
+    background-color: #f7c9aa;
+    padding: 4px;
+ }
+
+.ticket-font{
+    color : #1a1ef5;
+    border-radius: 20px;
+    background-color: #aabcf7;
+    padding: 4px;
+ }

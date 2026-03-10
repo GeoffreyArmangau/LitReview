@@ -1,0 +1,25 @@
+# .gitignore pour ignorer tous les fichiers images
+
+# Images courantes
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.svg
+*.webp
+
+# Dossiers d'images
+static/images/
+media/
+
+# Optionnel : ignorer tout fichier image dans n'importe quel dossier
+**/*.jpg
+**/*.jpeg
+**/*.png
+**/*.gif
+**/*.bmp
+**/*.tiff
+**/*.svg
+**/*.webp
