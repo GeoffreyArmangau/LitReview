@@ -10,7 +10,7 @@
       <a href="{% url 'create_ticket' %}" class="button-radius">Créer un ticket</a>
       <a href="{% url 'create_review' %}" class="button-radius">Créer une critique</a>
   </div>
-  <div class="posts-container" style="margin-top:32px;">
+  <div class="posts-container">
     {% if posts %}
       {% for post in posts %}
         {% if post.content_type == 'TICKET' %}

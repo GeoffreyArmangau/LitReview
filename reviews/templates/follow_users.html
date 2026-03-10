@@ -32,7 +32,7 @@
             <tr>
                 <td>{{ ab.followed_user.username }}</td>
                 <td>
-                    <form method="post" style="display:inline;">
+                    <form method="post" class="form-inline">
                         {% csrf_token %}
                         <input type="hidden" name="unfollow_user_id" value="{{ ab.followed_user.id }}">
                         <button type="submit" class="unfollow-button">Désabonner</button>

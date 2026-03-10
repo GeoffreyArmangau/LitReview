@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="posts-container">
-    <h2 style="margin-bottom: 30px;">Vos posts</h2>
+    <h2 class="posts-title-margin">Vos posts</h2>
     {% for post in posts %}
         {% if post.kind == 'review' %}
         <div class="post-card review review-flex">
@@ -29,7 +29,6 @@
                 {% if post.body %}
                 <div class="review-body">{{ post.body }}</div>
                 {% endif %}
-                <!-- Les boutons sont déplacés sous le ticket associé, donc on retire ce bloc -->
             </div>
             <div class="review-ticket-box">
                 <div class="ticket-label">Ticket associé</div>
@@ -38,7 +37,7 @@
                 <div class="ticket-image"><img src="{{ post.ticket.image.url }}" alt="Image ticket" /></div>
                 {% endif %}
             </div>
-            <div class="post-actions" style="margin-top:16px;">
+            <div class="post-actions">
                 <a href="{% url 'edit_review' post.id %}" class="button-radius">Modifier</a>
                 <form action="{% url 'delete_review' post.id %}" method="post" style="display:inline;">
                     {% csrf_token %}
@@ -52,14 +51,14 @@
                 <span class="review-pub">Vous avez créé un ticket</span>
                 <span class="review-date">{{ post.time_created|date:'d/m/Y H:i' }}</span>
             </div>
-            <div class="post-title" style="margin-bottom: 8px;">{{ post.title }}</div>
+            <div class="post-title post-title-margin">{{ post.title }}</div>
             {% if post.description %}
             <div class="post-content">{{ post.description }}</div>
             {% endif %}
             {% if post.image %}
             <div class="ticket-image"><img src="{{ post.image.url }}" alt="Image ticket" /></div>
             {% endif %}
-            <div class="post-actions" style="margin-bottom:32px;">
+            <div class="post-actions">
                 <a href="{% url 'edit_ticket' post.id %}" class="button-radius">Modifier</a>
                 <form action="{% url 'delete_ticket' post.id %}" method="post" style="display:inline;">
                     {% csrf_token %}

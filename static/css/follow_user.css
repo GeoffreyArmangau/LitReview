@@ -41,18 +41,22 @@ table td {
 	font-weight: bold;
 }
 
-/* Rendre la colonne "désabonner" étroite */
 table.abonnements td:last-child {
 	width: 1%;
 	white-space: nowrap;
 }
 
-/* Bouton désabonner invisible (seulement texte) */
+.form-inline {
+	display: inline;
+}
+
+/* Bouton désabonner*/
 .unfollow-button {
 	background: none;
     border: none;
 	color: #000000;
     font-size: large;
+	padding: 8px;
 }
 .unfollow-button:hover, .unfollow-button:focus {
 	color: #ffffff;

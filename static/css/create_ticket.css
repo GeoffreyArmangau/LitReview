@@ -1,9 +1,9 @@
-.ticket-image img {
-    max-width: 300px;
-    max-height: 200px;
-    width: auto;
-    height: auto;
+h2 {
+    margin-bottom: 24px;
+    text-align: center;
+    align-self: center;
 }
+
 /* Séparateur pour la création ticket+critique */
 .separator {
     border-top: 2px solid #bbb;
@@ -17,14 +17,17 @@
     margin-bottom: 18px;
     align-items: center;
 }
+
 .rating-group label {
     margin: 0;
     font-weight: normal;
 }
+
 .rating-group input[type="radio"] {
     width: 22px;
     height: 22px;
 }
+
 /* Style spécifique à la page de création de ticket */
 .form-container {
     width: 75%;
@@ -47,6 +50,7 @@
     align-items: center;
     margin-bottom: 24px;
 }
+
 .file-upload-label {
     cursor: pointer;
     margin-right: 16px;
@@ -54,14 +58,9 @@
     text-align: center;
     align-self: flex-start;
 }
+
 .custom-file-input {
     display: none;
-}
-
-h2 {
-    margin-bottom: 24px;
-    text-align: center;
-    align-self: center;
 }
 
 .form-container form {
@@ -72,7 +71,7 @@ h2 {
     box-sizing: border-box;
 }
 
-/* Bouton Télécharger fichier à gauche, 20px */
+/* Bouton Télécharger fichier à gauche*/
 .form-container .file-button {
     width: 200px;
     margin-bottom: 24px;
@@ -87,7 +86,7 @@ h2 {
     transform: scale(0.97);
 }
 
-/* Bouton Envoyer à droite, 20px */
+/* Bouton Envoyer à droite*/
 .form-container .button-radius[type="submit"] {
     width: 200px;
     align-self: flex-end;
