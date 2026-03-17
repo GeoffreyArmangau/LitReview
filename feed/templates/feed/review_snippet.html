@@ -23,7 +23,7 @@
         <div class="review-body">{{ post.body }}</div>
         {% endif %}
     </div>
-    {% if user.is_authenticated and post.user != user %}
+    {% if user.is_authenticated and post.user != user and post.ticket.reviews.count == 0 %}
     <a href="{% url 'create_review_answer' post.ticket.id %}" class="button-radius-answer">Répondre à ce ticket</a>
     {% endif %}
     <div class="review-ticket-box">

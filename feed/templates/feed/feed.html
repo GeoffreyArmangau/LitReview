@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/flux.css' %}">
 <link rel="stylesheet" href="{% static 'css/posts.css' %}">
 {% endblock %}
 {% block content %}
@@ -20,7 +19,7 @@
         {% endif %}
       {% endfor %}
     {% else %}
-      <div class="post-card"><em>Aucun post à afficher.</em></div>
+    <div class="post-card"><em>Aucun post à afficher.</em></div>
     {% endif %}
   </div>
 {% endblock %}
