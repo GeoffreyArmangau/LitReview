@@ -7,9 +7,21 @@
   <div class="bandeau">
     <h2>Connexion</h2>
   </div>
-  <form method="post">
+  <form method="post" class="login-form">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="button" type="submit">Se connecter</button>
+    {% if form.non_field_errors %}
+      <div class="form-error">{{ form.non_field_errors }}</div>
+    {% endif %}
+    <label for="id_username" class="sr-only">Nom d'utilisateur</label>
+    <input type="text" id="id_username" name="username" placeholder="Nom d'utilisateur" value="{{ form.username.value|default_if_none:'' }}" required>
+    {% if form.username.errors %}
+      <div class="form-error">{{ form.username.errors.0 }}</div>
+    {% endif %}
+    <label for="id_password" class="sr-only">Mot de passe</label>
+    <input type="password" id="id_password" name="password" placeholder="Mot de passe" required>
+    {% if form.password.errors %}
+      <div class="form-error">{{ form.password.errors.0 }}</div>
+    {% endif %}
+    <button class="button-radius" type="submit">Se connecter</button>
   </form>
 {% endblock %}

@@ -8,7 +8,27 @@
     <h2>Inscrivez-vous</h2>
     <form method="post" class="signup-form">
       {% csrf_token %}
-      {{ form.as_p }}
+      <p>
+        <label for="{{ form.username.id_for_label }}" class="sr-only">Nom d'utilisateur</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="form-error">{{ form.username.errors.0 }}</div>
+        {% endif %}
+      </p>
+      <p>
+        <label for="{{ form.password1.id_for_label }}" class="sr-only">Mot de passe</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+          <div class="form-error">{{ form.password1.errors.0 }}</div>
+        {% endif %}
+      </p>
+      <p>
+        <label for="{{ form.password2.id_for_label }}" class="sr-only">Confirmer le mot de passe</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+          <div class="form-error">{{ form.password2.errors.0 }}</div>
+        {% endif %}
+      </p>
       <div class="signup-actions">
         <a href="/" class="button-radius">Retourner</a>
         <button class="button-radius" type="submit">S'inscrire</button>

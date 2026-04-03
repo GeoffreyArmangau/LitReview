@@ -25,25 +25,33 @@ input[name="username"]::placeholder {
 	color: #bbb;
 }
 
-/* Tableaux abonnements et abonnés */
-table {
+
+.abonnement-item form {
+	border-left: 2px solid #000;
+	margin-left: 16px;
+	padding-left: 16px;
+}
+
+/* Listes abonnements et abonnés en mode table */
+ul.abonnements, ul.abonnes {
+	margin: auto;
 	width: 80%;
-	margin: 1em auto;
-	border-collapse: collapse;
 }
-table td {
-	border: 2px solid #000000;
+
+.abonnement-item, .abonnes li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border: 2px solid #000;
 	padding: 8px 12px;
-	text-align: left;
-}
-
-table td {
+	margin-bottom: 8px;
 	font-weight: bold;
+	background: #fde4bebe;
+	border-radius: 8px;
 }
 
-table.abonnements td:last-child {
-	width: 1%;
-	white-space: nowrap;
+.abonnement-item form {
+	margin: 0;
 }
 
 .form-inline {

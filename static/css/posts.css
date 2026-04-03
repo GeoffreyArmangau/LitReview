@@ -59,12 +59,13 @@
     letter-spacing: 2px;
 }
 
+
 .star{
-    color: #db6617;
+    color: #a13d00;
 }
 
 .star.empty {
-    color: #bbb;
+    color: #555;
 }
 
 .review-body {
@@ -114,17 +115,19 @@
     margin: auto;
 }
 
+
 .critique-font{
-    color : #ec6d18;
+    color : #a13d00;
     border-radius: 20px;
-    background-color: #f7c9aa;
+    background-color: #ffe3c2;
     padding: 4px;
 }
 
+
 .ticket-font{
-    color : #1a1ef5;
+    color : #002984;
     border-radius: 20px;
-    background-color: #aabcf7;
+    background-color: #dbe6fa;
     padding: 4px;
 }
 

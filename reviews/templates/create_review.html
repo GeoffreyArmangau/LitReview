@@ -14,15 +14,17 @@
             {{ ticket_form.title }}
             {{ ticket_form.description.label_tag }}
             {{ ticket_form.description }}
-            <label class="custom-file-label" for="id_image">Image</label>
-            {{ ticket_form.image }}
+            <div class="file-upload-wrapper">
+                <label for="id_image" class="file-upload-label button-radius">Télécharger une image</label>
+                {{ ticket_form.image }}
+            </div>
         </fieldset>
         <div class="separator"></div>
         <fieldset>
             <legend>Critique</legend>
             {{ review_form.headline.label_tag }}
             {{ review_form.headline }}
-            <label>Note</label>
+            <span class="rating-label">Note</span>
             <div class="rating-group">
                 {% for i in "012345" %}
                     <input type="radio" name="rating" id="rating_{{ i }}" value="{{ i }}" {% if review_form.rating.value|stringformat:'s' == i %}checked{% endif %}>

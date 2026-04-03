@@ -19,8 +19,10 @@
       {% else %}
         <form method="post" action="{% url 'login' %}" class="login-form">
           {% csrf_token %}
-          <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-          <input type="password" name="password" placeholder="Mot de passe" required>
+          <label for="id_username" class="sr-only">Nom d'utilisateur</label>
+          <input type="text" id="id_username" name="username" placeholder="Nom d'utilisateur" required>
+          <label for="id_password" class="sr-only">Mot de passe</label>
+          <input type="password" id="id_password" name="password" placeholder="Mot de passe" required>
           <button type="submit" class="button-radius">Se connecter</button>
         </form>
       {% endif %}

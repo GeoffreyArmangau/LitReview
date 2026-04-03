@@ -38,9 +38,10 @@ h2 {
 }
 
 .login-form {
+/* Accessibilité : labels visibles uniquement pour les lecteurs d'écran */
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* aligne tout à droite */
+    align-items: flex-end; 
     gap: 15px;
     width: 100%;
 }
@@ -52,9 +53,9 @@ h2 {
     border: 1.2px solid #2a2a2a;
     font-size: 1em;
     background: #f9f9f9;
-    text-align: center; /* Centrer le texte dans les champs */
+    text-align: center; 
 }
 .login-form button {
     width: 140px;
-    align-self: flex-end; /* Place le bouton à droite */
+    align-self: flex-end; 
 }

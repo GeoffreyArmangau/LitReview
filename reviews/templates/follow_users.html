@@ -13,7 +13,8 @@
     <h3>Suivre un utilisateur</h3>
     <form method="post">
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Follow user" required>
+        <label for="id_username" class="sr-only">Nom d'utilisateur à suivre</label>
+        <input type="text" id="id_username" name="username" placeholder="Follow user" required>
         <button type="submit" name="follow_user" class="button-radius">Envoyer</button>
     </form>
     {% for message in messages %}
@@ -27,20 +28,18 @@
 <section>
     <h3>Mes abonnements</h3>
     {% if abonnements %}
-        <table class="abonnements">
+        <ul class="abonnements">
             {% for ab in abonnements %}
-            <tr>
-                <td>{{ ab.followed_user.username }}</td>
-                <td>
-                    <form method="post" class="form-inline">
-                        {% csrf_token %}
-                        <input type="hidden" name="unfollow_user_id" value="{{ ab.followed_user.id }}">
-                        <button type="submit" class="unfollow-button">Désabonner</button>
-                    </form>
-                </td>
-            </tr>
+            <li class="abonnement-item">
+                <span>{{ ab.followed_user.username }}</span>
+                <form method="post" class="form-inline" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="unfollow_user_id" value="{{ ab.followed_user.id }}">
+                    <button type="submit" class="unfollow-button">Désabonner</button>
+                </form>
+            </li>
             {% endfor %}
-        </table>
+        </ul>
     {% else %}
         <p>Vous ne suivez personne.</p>
     {% endif %}
@@ -52,11 +51,11 @@
 <section>
     <h3>Mes abonnés</h3>
     {% if abonnes %}
-        <table class="abonnes">
+        <ul class="abonnes">
             {% for ab in abonnes %}
-            <tr><td>{{ ab.user.username }}</td></tr>
+            <li>{{ ab.user.username }}</li>
             {% endfor %}
-        </table>
+        </ul>
     {% else %}
         <p>Vous n'avez pas d'abonnés.</p>
     {% endif %}
