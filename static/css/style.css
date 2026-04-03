@@ -4,6 +4,7 @@ html, body{
     margin: 0;
     padding: 0;
 }
+
 body {
     min-height: 100vh;
     display: flex;
@@ -56,6 +57,7 @@ footer {
     margin-left: 12px;
     display: inline-block;
 }
+
 /* Redimensionnement global des images de ticket */
 .ticket-image img {
     max-width: 300px;

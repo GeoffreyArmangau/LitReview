@@ -80,8 +80,6 @@
     font-size: 1.05rem;
 }
 
-/* Version DRY : une seule déclaration par classe, pas de doublons */
-
 .review-ticket-box {
     background: none;
     border: 1px solid #000;
@@ -115,14 +113,12 @@
     margin: auto;
 }
 
-
 .critique-font{
     color : #a13d00;
     border-radius: 20px;
     background-color: #ffe3c2;
     padding: 4px;
 }
-
 
 .ticket-font{
     color : #002984;
