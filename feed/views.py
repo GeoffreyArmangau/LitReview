@@ -7,12 +7,11 @@ from django.db.models import Q, CharField, Value
 from itertools import chain
 from reviews.models import Ticket, Review
 from authentification.models import UserFollows
-
+from django.shortcuts import redirect
 
 def feed(request):
     user = request.user
     if not user.is_authenticated:
-        from django.shortcuts import redirect
         return redirect('login')
 
     def get_users_viewable_tickets(user):
