@@ -6,12 +6,27 @@
 {% block content %}
 <div class="form-container">
     <h2>Modifier la critique</h2>
+    <div class="ticket-box">
+        <div class="ticket-label">Ticket associé</div>
+        <div class="ticket-title">{{ review.ticket.title }}</div>
+        {% if review.ticket.description %}
+        <div class="ticket-description">{{ review.ticket.description }}</div>
+        {% endif %}
+        {% if review.ticket.image %}
+        <div class="ticket-image"><img src="{{ review.ticket.image.url }}" alt="Image ticket" /></div>
+        {% endif %}
+    </div>
+
+    <div class="separator"></div>
+
     <form method="post">
         {% csrf_token %}
         {{ form.headline.label_tag }}
         {{ form.headline }}
-        {{ form.rating.label_tag }}
-        {{ form.rating }}
+        <div class="rating-group">
+            {{ form.rating.label_tag }}
+            {{ form.rating }}
+        </div>
         {{ form.body.label_tag }}
         {{ form.body }}
         <button type="submit" class="button-radius">Enregistrer les modifications</button>

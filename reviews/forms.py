@@ -53,6 +53,20 @@ class ReviewForm(forms.ModelForm):
     - rating : champ de sélection pour la note de la critique
     - body : champ de texte pour le commentaire de la critique
     """
+    RATING_CHOICES = [
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    ]
+
+    rating = forms.ChoiceField(
+        label='Note',
+        choices=RATING_CHOICES,
+        widget=forms.RadioSelect(attrs={'class': 'rating-group'})
+    )
+
     class Meta:
         model = Review
         fields = ['headline', 'rating', 'body']
