@@ -65,21 +65,14 @@ class PostListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        tickets = Ticket.objects.filter(user=user).order_by('-time_created')
-        user_reviews = Review.objects.filter(user=user).order_by('-time_created')
-        reviews_on_user_tickets = Review.objects.filter(ticket__user=user).exclude(user=user)
-        reviews_by_ticket = {}
-        for review in reviews_on_user_tickets:
-            reviews_by_ticket.setdefault(review.ticket_id, []).append(review)
+        tickets = list(Ticket.objects.filter(user=user))
+        reviews = list(Review.objects.filter(user=user))
 
-        posts = []
-        for review in user_reviews:
-            review.kind = 'review'
-            posts.append(review)
         for ticket in tickets:
             ticket.kind = 'ticket'
-            posts.append(ticket)
-            for review in reviews_by_ticket.get(ticket.id, []):
-                review.kind = 'review'
-                posts.append(review)
+        for review in reviews:
+            review.kind = 'review'
+
+        posts = tickets + reviews
+        posts.sort(key=lambda obj: obj.time_created, reverse=True)
         return posts
